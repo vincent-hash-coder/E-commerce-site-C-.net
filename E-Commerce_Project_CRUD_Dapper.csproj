@@ -304,6 +304,8 @@
     <Content Include="Views\Home\detail.cshtml" />
     <Content Include="Views\Home\shop.cshtml" />
     <Content Include="Views\Home\index.cshtml" />
+    <Content Include="Views\Home\signup.cshtml" />
+    <Content Include="Views\Home\login.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -1,0 +1,43 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2 class="text-center text-primary my-4">Sign up</h2>
+
+<div class="container d-flex justify-content-center">
+    <div class="card p-4 shadow-lg" style="max-width: 500px; width: 100%;">
+        <form method="post" action="/Account/Signup" enctype="multipart/form-data" class="signup-form">
+            <div class="mb-3">
+                <label for="Name" class="form-label">Name</label>
+                <input type="text" class="form-control" id="Name" name="Name" required />
+            </div>
+
+            <div class="mb-3">
+                <label for="Email" class="form-label">Email</label>
+                <input type="email" class="form-control" id="Email" name="Email" required />
+            </div>
+
+            <div class="mb-3">
+                <label for="Password" class="form-label">Password</label>
+                <input type="password" class="form-control" id="Password" name="Password" required />
+            </div>
+
+            <div class="mb-3">
+                <label for="Address" class="form-label">Address</label>
+                <textarea class="form-control" id="Address" name="Address" rows="3" required></textarea>
+            </div>
+
+            <div class="mb-3">
+                <label for="ProfileImage" class="form-label">Profile Image</label>
+                <input type="file" class="form-control" id="ProfileImage" name="ProfileImage" accept="image/*" />
+            </div>
+
+            <div class="mb-3">
+                <label for="MobileNo" class="form-label">Mobile No</label>
+                <input type="text" class="form-control" id="MobileNo" name="MobileNo" required />
+            </div>
+
+            <button type="submit" class="btn btn-primary w-100">Signup</button>
+        </form>
+    </div>
+</div>

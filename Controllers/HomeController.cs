@@ -80,5 +80,14 @@ namespace E_Commerce_Project_CRUD_Dapper.Controllers
         {
             return View("Index");
         }
+
+        public ActionResult Login()
+        {
+            return View();
+        }
+        public ActionResult Signup() 
+        { 
+            return View(); 
+        }
     }
 }
