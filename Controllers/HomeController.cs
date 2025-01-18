@@ -80,5 +80,10 @@ namespace E_Commerce_Project_CRUD_Dapper.Controllers
         {
             return View("Index");
         }
+
+        public ActionResult NewTest()
+        {
+            return View();
+        }
     }
 }
