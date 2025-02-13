@@ -306,6 +306,7 @@
     <Content Include="Views\Home\index.cshtml" />
     <Content Include="Views\Home\signup.cshtml" />
     <Content Include="Views\Home\login.cshtml" />
+    <Content Include="Views\Home\_ProductListPartial.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

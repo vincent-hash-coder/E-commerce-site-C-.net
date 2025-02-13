@@ -12,14 +12,14 @@ namespace E_Commerce_Project_CRUD_Dapper.Models
     {
         private static string Connectionstring = @"Data Source=(localdb)\Local;Initial Catalog=ECommerceDB;Integrated Security=True";
         // Retrieves a list of records from the database
-        public static List<T> ReturnList<T>(string ProcedureName, DynamicParameters Parameters =null)
+        public static List<T> ReturnList<T>(string ProcedureName, DynamicParameters Parameters = null)
         {
             using (SqlConnection con = new SqlConnection(Connectionstring))
             {
                 con.Open();
-                return (List<T>) (con.Query<T>(ProcedureName, Parameters, commandType: CommandType.StoredProcedure));
+                return (List<T>)(con.Query<T>(ProcedureName, Parameters, commandType: CommandType.StoredProcedure));
             }
-                
+
         }
         // Retrieves a single row from the database
         public static T ReturnSingleRow<T>(string procedureName, DynamicParameters parameters = null)

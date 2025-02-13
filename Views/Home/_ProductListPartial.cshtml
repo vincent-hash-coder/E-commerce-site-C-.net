@@ -1,0 +1,37 @@
+﻿@model List<E_Commerce_Project_CRUD_Dapper.Models.Product>
+
+<div class="row">
+    @foreach (var obj in Model)
+    {
+        <div class="col-lg-4 col-md-6 col-sm-6 pb-1">
+            <div class="product-item bg-light mb-4">
+                <div class="product-img position-relative overflow-hidden">
+                    <img class="img-fluid w-100" src="@obj.ImageLocation" alt="@obj.ProductName" loading="lazy">
+                    <div class="product-action">
+                        <a class="btn btn-outline-dark btn-square" href="@Url.Action("Checkout", "Home", new { id = obj.ProductID })"><i class="fa fa-shopping-cart"></i></a>
+                        <a class="btn btn-outline-dark btn-square" href="@Url.Action("Cart", "Home", new { productIds = obj.ProductID })"><i class="far fa-heart"></i></a>
+                        <a class="btn btn-outline-dark btn-square" href="@Url.Action("Compare", "Home", new { id = obj.ProductID })"><i class="fa fa-sync-alt"></i></a>
+                        <a class="btn btn-outline-dark btn-square" href="@Url.Action("Detail", "Home", new { id = obj.ProductID })"><i class="fa fa-search"></i></a>
+                    </div>
+                </div>
+                <div class="text-center py-4">
+                    <a class="h6 text-decoration-none text-truncate" href="@Url.Action("Detail", "Home", new { id = obj.ProductID })">@obj.ProductName</a>
+                    <div class="d-flex align-items-center justify-content-center mt-2">
+                        <h5>₹@obj.Price</h5>
+                        @if (obj.RealPrice > obj.Price)
+                        {
+                            <h6 class="text-muted ml-2"><del>₹@obj.RealPrice</del></h6>
+                        }
+                    </div>
+                    <div class="d-flex align-items-center justify-content-center mb-1">
+                        @for (int i = 1; i <= 5; i++)
+                        {
+                            <small></small>
+                        }
+                        <small></small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>

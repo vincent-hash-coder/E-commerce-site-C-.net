@@ -20,17 +20,16 @@ namespace E_Commerce_Project_CRUD_Dapper.Controllers
             }
             return View(products);
         }
-
-
-
         public ActionResult Contact()
         {
             return View();
         }
-
-        public ActionResult Shop()
+        public ActionResult Shop(string priceFilter = null)
         {
-            List<Product> products = DapperORM.ReturnList<Product>("GetAllProductList");
+            var parameters = new DynamicParameters();
+            parameters.Add("@PriceFilter", priceFilter);
+
+            List<Product> products = DapperORM.ReturnList<Product>("GetFilteredProductsByPrice", parameters);
             foreach (var product in products)
             {
                 var ImagePart = product.ImageLocation.Split(',');
@@ -38,8 +37,19 @@ namespace E_Commerce_Project_CRUD_Dapper.Controllers
             }
             return View(products);
         }
+        public ActionResult FilterProductsByPrice(string priceFilter = null)
+        {
+            var parameters = new DynamicParameters();
+            parameters.Add("@PriceFilter", priceFilter);
 
-
+            List<Product> products = DapperORM.ReturnList<Product>("GetFilteredProductsByPrice", parameters);
+            foreach (var product in products)
+            {
+                var ImagePart = product.ImageLocation.Split(',');
+                product.ImageLocation = ImagePart.FirstOrDefault();
+            }
+            return PartialView("_ProductListPartial", products);
+        }
         public ActionResult Detail(int id = 1)
         {
             var parameters = new DynamicParameters();
@@ -53,7 +63,6 @@ namespace E_Commerce_Project_CRUD_Dapper.Controllers
         {
             return View();
         }
-
         public ActionResult Cart(string productIds = "0")
         {
             if (string.IsNullOrEmpty(productIds))
@@ -73,21 +82,17 @@ namespace E_Commerce_Project_CRUD_Dapper.Controllers
             }
             return View(products);
         }
-
-
-
         public ActionResult Back()
         {
             return View("Index");
         }
-
         public ActionResult Login()
         {
             return View();
         }
-        public ActionResult Signup() 
-        { 
-            return View(); 
+        public ActionResult Signup()
+        {
+            return View();
         }
     }
 }

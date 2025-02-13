@@ -1,4 +1,4 @@
-﻿@using E_Commerce_Project_CRUD_Dapper.Models;
+﻿﻿@using E_Commerce_Project_CRUD_Dapper.Models;
 
 @model List<Product>
 
@@ -9,6 +9,28 @@
 <!DOCTYPE html>
 <html lang="en">
 <body>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+    $(document).ready(function () {
+        $('input[name="priceFilter"]').change(function () {
+            var priceFilter = $(this).val();
+            console.log("Selected Price Filter:", priceFilter);
+
+            $.ajax({
+                url: '@Url.Action("FilterProductsByPrice", "Home")',
+                type: 'GET',
+                data: { priceFilter: priceFilter },
+                success: function (response) {
+                    console.log("AJAX Response:", response);
+                    $('#productListContainer').html(response);
+                },
+                error: function (xhr, status, error) {
+                    console.error("Error fetching filtered products:", error);
+                }
+            });
+        });
+    });
+    </script>
     <!-- Breadcrumb Start -->
     <div class="container-fluid">
         <div class="row px-xl-5">
@@ -28,76 +50,50 @@
             <!-- Shop Sidebar Start -->
             <div class="col-lg-3 col-md-4">
                 <!-- Price Start -->
-                <h5 class="section-title position-relative text-uppercase mb-3"><span class="bg-secondary pr-3">Filter by price</span></h5>
+                <h5 class="section-title position-relative text-uppercase mb-3">
+                    <span class="bg-secondary pr-3">Filter by price</span>
+                </h5>
                 <div class="bg-light p-4 mb-30">
-                    <form>
+                    <form id="priceFilterForm">
                         <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
-                            <input type="checkbox" class="custom-control-input" checked id="price-all">
+                            <input type="radio" class="custom-control-input" name="priceFilter" value="all" id="price-all">
                             <label class="custom-control-label" for="price-all">All Price</label>
                             <span class="badge border font-weight-normal">1000</span>
                         </div>
                         <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
-                            <input type="checkbox" class="custom-control-input" id="price-1">
-                            <label class="custom-control-label" for="price-1">$0 - $100</label>
+                            <input type="radio" class="custom-control-input" name="priceFilter" value="0-10000" id="price-1">
+                            <label class="custom-control-label" for="price-1">₹0 - ₹10000</label>
                             <span class="badge border font-weight-normal">150</span>
                         </div>
                         <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
-                            <input type="checkbox" class="custom-control-input" id="price-2">
-                            <label class="custom-control-label" for="price-2">$100 - $200</label>
+                            <input type="radio" class="custom-control-input" name="priceFilter" value="10001-20000" id="price-2">
+                            <label class="custom-control-label" for="price-2">₹10001 - ₹20000</label>
                             <span class="badge border font-weight-normal">295</span>
                         </div>
                         <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
-                            <input type="checkbox" class="custom-control-input" id="price-3">
-                            <label class="custom-control-label" for="price-3">$200 - $300</label>
+                            <input type="radio" class="custom-control-input" name="priceFilter" value="20001-50000" id="price-3">
+                            <label class="custom-control-label" for="price-3">₹20001 - ₹50000</label>
                             <span class="badge border font-weight-normal">246</span>
                         </div>
                         <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
-                            <input type="checkbox" class="custom-control-input" id="price-4">
-                            <label class="custom-control-label" for="price-4">$300 - $400</label>
+                            <input type="radio" class="custom-control-input" name="priceFilter" value="50001-100000" id="price-4">
+                            <label class="custom-control-label" for="price-4">₹50001 - ₹100000</label>
                             <span class="badge border font-weight-normal">145</span>
                         </div>
                         <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between">
-                            <input type="checkbox" class="custom-control-input" id="price-5">
-                            <label class="custom-control-label" for="price-5">$400 - $500</label>
+                            <input type="radio" class="custom-control-input" name="priceFilter" value="100001-Above" id="price-5">
+                            <label class="custom-control-label" for="price-5">₹100001 - Above</label>
                             <span class="badge border font-weight-normal">168</span>
                         </div>
                     </form>
                 </div>
                 <!-- Price End -->
+                <!-- Color and Size Filters (Placeholder) -->
                 <!-- Color Start -->
                 <h5 class="section-title position-relative text-uppercase mb-3"><span class="bg-secondary pr-3">Filter by color</span></h5>
                 <div class="bg-light p-4 mb-30">
                     <form>
-                        <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
-                            <input type="checkbox" class="custom-control-input" checked id="color-all">
-                            <label class="custom-control-label" for="price-all">All Color</label>
-                            <span class="badge border font-weight-normal">1000</span>
-                        </div>
-                        <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
-                            <input type="checkbox" class="custom-control-input" id="color-1">
-                            <label class="custom-control-label" for="color-1">Black</label>
-                            <span class="badge border font-weight-normal">150</span>
-                        </div>
-                        <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
-                            <input type="checkbox" class="custom-control-input" id="color-2">
-                            <label class="custom-control-label" for="color-2">White</label>
-                            <span class="badge border font-weight-normal">295</span>
-                        </div>
-                        <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
-                            <input type="checkbox" class="custom-control-input" id="color-3">
-                            <label class="custom-control-label" for="color-3">Red</label>
-                            <span class="badge border font-weight-normal">246</span>
-                        </div>
-                        <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
-                            <input type="checkbox" class="custom-control-input" id="color-4">
-                            <label class="custom-control-label" for="color-4">Blue</label>
-                            <span class="badge border font-weight-normal">145</span>
-                        </div>
-                        <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between">
-                            <input type="checkbox" class="custom-control-input" id="color-5">
-                            <label class="custom-control-label" for="color-5">Green</label>
-                            <span class="badge border font-weight-normal">168</span>
-                        </div>
+                        <!-- Color filter options -->
                     </form>
                 </div>
                 <!-- Color End -->
@@ -105,36 +101,7 @@
                 <h5 class="section-title position-relative text-uppercase mb-3"><span class="bg-secondary pr-3">Filter by size</span></h5>
                 <div class="bg-light p-4 mb-30">
                     <form>
-                        <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
-                            <input type="checkbox" class="custom-control-input" checked id="size-all">
-                            <label class="custom-control-label" for="size-all">All Size</label>
-                            <span class="badge border font-weight-normal">1000</span>
-                        </div>
-                        <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
-                            <input type="checkbox" class="custom-control-input" id="size-1">
-                            <label class="custom-control-label" for="size-1">XS</label>
-                            <span class="badge border font-weight-normal">150</span>
-                        </div>
-                        <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
-                            <input type="checkbox" class="custom-control-input" id="size-2">
-                            <label class="custom-control-label" for="size-2">S</label>
-                            <span class="badge border font-weight-normal">295</span>
-                        </div>
-                        <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
-                            <input type="checkbox" class="custom-control-input" id="size-3">
-                            <label class="custom-control-label" for="size-3">M</label>
-                            <span class="badge border font-weight-normal">246</span>
-                        </div>
-                        <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
-                            <input type="checkbox" class="custom-control-input" id="size-4">
-                            <label class="custom-control-label" for="size-4">L</label>
-                            <span class="badge border font-weight-normal">145</span>
-                        </div>
-                        <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between">
-                            <input type="checkbox" class="custom-control-input" id="size-5">
-                            <label class="custom-control-label" for="size-5">XL</label>
-                            <span class="badge border font-weight-normal">168</span>
-                        </div>
+                        <!-- Size filter options -->
                     </form>
                 </div>
                 <!-- Size End -->
@@ -169,47 +136,13 @@
                             </div>
                         </div>
                     </div>
-                    
-                        <div class="row">
-                            @foreach (var obj in Model)
-                            {
-                                <div class="col-lg-4 col-md-6 col-sm-6 pb-1">
-                                    <div class="product-item bg-light mb-4">
-                                        <div class="product-img position-relative overflow-hidden">
-                                            <img class="img-fluid w-100" src="@obj.ImageLocation" alt="@obj.ProductName" loading="lazy">
-                                            <div class="product-action">
-                                                <a class="btn btn-outline-dark btn-square" href="@Url.Action("Checkout", "Home", new { id = obj.ProductID })"><i class="fa fa-shopping-cart"></i></a>
-                                                <a class="btn btn-outline-dark btn-square" href="@Url.Action("Cart", "Home", new { productIds = obj.ProductID })"><i class="far fa-heart"></i></a>
-                                                <a class="btn btn-outline-dark btn-square" href="@Url.Action("Compare", "Home", new { id = obj.ProductID })"><i class="fa fa-sync-alt"></i></a>
-                                                <a class="btn btn-outline-dark btn-square" href="@Url.Action("Detail", "Home", new { id = obj.ProductID })"><i class="fa fa-search"></i></a>
-                                            </div>
-                                        </div>
-                                        <div class="text-center py-4">
-                                            <a class="h6 text-decoration-none text-truncate" href="@Url.Action("Detail", "Home", new { id = obj.ProductID })">@obj.ProductName</a>
-                                            <div class="d-flex align-items-center justify-content-center mt-2">
-                                                <h5>₹@obj.Price</h5>
-                                                @if (obj.RealPrice > obj.Price)
-                                                {
-                                                    <h6 class="text-muted ml-2"><del>₹@obj.RealPrice</del></h6>
-                                                }
-                                            </div>
-                                            <div class="d-flex align-items-center justify-content-center mb-1">
-                                                @for (int i = 1; i <= 5; i++)
-                                                {
-                                                    <small class="fa @(i <=0 ? "fa-star text-primary mr-1" : "fa-star text-muted mr-1")"></small>
-                                                }
-                                                <small>({obj.ReviewCount ?? 0})</small>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            }
 
-
-
-
+                    <!-- Product List Section -->
+                    <div id="productListContainer">
+                        @Html.Partial("_ProductListPartial", Model)
                     </div>
-                    
+
+                    <!-- Pagination -->
                     <div class="col-12">
                         <nav>
                             <ul class="pagination justify-content-center">
