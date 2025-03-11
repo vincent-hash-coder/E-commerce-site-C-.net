@@ -12,11 +12,14 @@ namespace E_Commerce_Project_CRUD_Dapper.Controllers
         {
             var parameters = new DynamicParameters();
             parameters.Add("@NumberOfProducts", NumberOfProducts);
-            List<Product> products = DapperORM.ReturnList<Product>("GetRandomProducts", parameters);
+            List<Product> products = DapperORM.ReturnList<Product>("GetRandomProducts", parameters) ?? new List<Product>();
             foreach (var product in products)
             {
-                var ImagePart = product.ImageLocation.Split(',');
-                product.ImageLocation = ImagePart.FirstOrDefault();
+                if (!string.IsNullOrEmpty(product.ImageLocation))
+                {
+                    var ImagePart = product.ImageLocation.Split(',');
+                    product.ImageLocation = ImagePart.FirstOrDefault();
+                }
             }
             return View(products);
         }
@@ -26,6 +29,10 @@ namespace E_Commerce_Project_CRUD_Dapper.Controllers
         }
         public ActionResult Shop(string priceFilter = null)
         {
+            var productCounts = DapperORM.ReturnList<Product>("GetProductCountsByPrice");
+
+            ViewBag.ProductCounts = productCounts.ToDictionary(pc => pc.PriceFilter, pc => pc.ProductCount);
+
             var parameters = new DynamicParameters();
             parameters.Add("@PriceFilter", priceFilter);
 
@@ -35,6 +42,7 @@ namespace E_Commerce_Project_CRUD_Dapper.Controllers
                 var ImagePart = product.ImageLocation.Split(',');
                 product.ImageLocation = ImagePart.FirstOrDefault();
             }
+
             return View(products);
         }
         public ActionResult FilterProductsByPrice(string priceFilter = null)
@@ -93,6 +101,12 @@ namespace E_Commerce_Project_CRUD_Dapper.Controllers
         public ActionResult Signup()
         {
             return View();
+        }
+        public JsonResult GetProductCounts()
+        {
+            var productCounts = DapperORM.ReturnList<Product>("GetProductCountsByPrice");
+            var counts = productCounts.ToDictionary(pc => pc.PriceFilter, pc => pc.ProductCount);
+            return Json(counts, JsonRequestBehavior.AllowGet);
         }
     }
 }

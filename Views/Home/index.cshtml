@@ -270,12 +270,19 @@
             <span class="bg-secondary pr-3">Featured Products</span>
         </h2>
         <div class="row px-xl-5">
-            @foreach (var product in Model)
+            @foreach (var product in Model ?? new List<Product>())
             {
                 <div class="col-lg-3 col-md-4 col-sm-6 pb-1">
                     <div class="product-item bg-light mb-4">
                         <div class="product-img position-relative overflow-hidden">
-                            <img class="img-fluid w-100" src="@product.ImageLocation" alt="Image">
+                            @if (!string.IsNullOrEmpty(product.ImageLocation))
+                            {
+                                <img class="img-fluid w-100" src="@product.ImageLocation" alt="Image">
+                            }
+                            else
+                            {
+                                <img class="img-fluid w-100" src="~/img/default-product-image.jpg" alt="Default Image">
+                            }
                             <div class="product-action">
                                 <a class="btn btn-outline-dark btn-square" href="@Url.Action("Checkout", "Home", new { id = product.ProductID })"><i class="fa fa-shopping-cart"></i></a>
                                 <a class="btn btn-outline-dark btn-square" href="@Url.Action("Cart", "Home", new { productIds = product.ProductID })"><i class="far fa-heart"></i></a>

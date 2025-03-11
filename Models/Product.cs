@@ -16,5 +16,7 @@ namespace E_Commerce_Project_CRUD_Dapper.Models
         public decimal Price { get; set; }
         public string Description_ { get; set; }
         public int Quantity { get; set; }
+        public string PriceFilter { get; set; }
+        public int ProductCount { get; set; }
     }
 }
