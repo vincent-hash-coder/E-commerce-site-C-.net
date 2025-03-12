@@ -331,6 +331,7 @@
     <Content Include="Views\Home\login.cshtml" />
     <Content Include="Views\Home\_ProductListPartial.cshtml" />
     <Content Include="Views\Shared\_UserProfilePartial.cshtml" />
+    <Content Include="Views\Home\SellerSignup.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

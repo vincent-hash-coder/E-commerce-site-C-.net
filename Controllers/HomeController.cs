@@ -204,6 +204,63 @@ namespace E_Commerce_Project_CRUD_Dapper.Controllers
 
             return RedirectToAction("Index", "Home");
         }
+        public ActionResult SellerSignup()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public JsonResult SellerSignup(UserModel seller)
+        {
+            try
+            {
+                string profileImgPath = Server.MapPath("~/Profileimg");
+                if (!Directory.Exists(profileImgPath))
+                {
+                    Directory.CreateDirectory(profileImgPath);
+                }
+
+                if (seller.ProfileImage != null && seller.ProfileImage.ContentLength > 0)
+                {
+                    string fileName = Path.GetFileName(seller.ProfileImage.FileName);
+                    string savePath = Path.Combine(profileImgPath, fileName);
+                    seller.ProfileImage.SaveAs(savePath);
+                    seller.ProfileImagePath = "/Profileimg/" + fileName;
+                }
+                else
+                {
+                    seller.ProfileImagePath = "Profileimg/default.png";
+                }
+
+                seller.PasswordHash = BCrypt.Net.BCrypt.HashPassword(seller.Password);
+                seller.Position = "Seller"; 
+
+                DynamicParameters param = new DynamicParameters();
+                param.Add("@Name", seller.Name);
+                param.Add("@Email", seller.Email);
+                param.Add("@PasswordHash", seller.PasswordHash);
+                param.Add("@Address", seller.Address);
+                param.Add("@ProfileImagePath", seller.ProfileImagePath);
+                param.Add("@MobileNo", seller.MobileNo);
+                param.Add("@Position", seller.Position);
+
+                DapperORM.ReturnNothing("InsertUser", param);
+
+                return Json(new { success = true, message = "Seller Registration successful!" });
+            }
+            catch (SqlException ex)
+            {
+                if (ex.Number == 50000)
+                {
+                    return Json(new { success = false, message = ex.Message });
+                }
+                return Json(new { success = false, message = "SQL Error: " + ex.Message });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = false, message = "Error: " + ex.Message });
+            }
+        }
 
     }
 }

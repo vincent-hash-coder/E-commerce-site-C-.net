@@ -1,0 +1,73 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Seller Signup";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header text-center bg-primary text-white">
+                    <h4>Seller Signup</h4>
+                </div>
+                <div class="card-body">
+                    <form id="sellerSignupForm" enctype="multipart/form-data">
+                        <div class="form-group">
+                            <label for="name">Name</label>
+                            <input type="text" class="form-control" id="name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input type="email" class="form-control" id="email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="password">Password</label>
+                            <input type="password" class="form-control" id="password" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="address">Address</label>
+                            <textarea class="form-control" id="address" required></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="mobileNo">Mobile No</label>
+                            <input type="text" class="form-control" id="mobileNo" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="profileImage">Profile Image</label>
+                            <input type="file" class="form-control-file" id="profileImage">
+                        </div>
+                        <button type="button" class="btn btn-primary btn-block" onclick="sellerSignup()">Signup</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function sellerSignup() {
+        var formData = new FormData();
+        formData.append("Name", document.getElementById("name").value);
+        formData.append("Email", document.getElementById("email").value);
+        formData.append("Password", document.getElementById("password").value);
+        formData.append("Address", document.getElementById("address").value);
+        formData.append("MobileNo", document.getElementById("mobileNo").value);
+        formData.append("ProfileImage", document.getElementById("profileImage").files[0]);
+
+        $.ajax({
+            url: '@Url.Action("SellerSignup", "Home")',
+            type: 'POST',
+            data: formData,
+            contentType: false,
+            processData: false,
+            success: function (response) {
+                if (response.success) {
+                    alert("Registration Successful!");
+                    window.location.href = '@Url.Action("Index", "Home")';
+                } else {
+                    alert(response.message);
+                }
+            }
+        });
+    }
+</script>
