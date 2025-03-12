@@ -1,11 +1,13 @@
-﻿<!DOCTYPE html>
+﻿@using E_Commerce_Project_CRUD_Dapper.Models
+@{
+    var user = Session["User"] as E_Commerce_Project_CRUD_Dapper.Models.UserModel;
+}
+<!DOCTYPE html>
 <html>
 <head>
     <title>@ViewBag.Title E-commerce Site</title>
     <meta charset="utf-8">
-    <title>Shop Mart Main page</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
-
 
     <!-- Favicon -->
     <link href="img/favicon.ico" rel="icon">
@@ -23,10 +25,62 @@
 
     <!-- Customized Bootstrap Stylesheet -->
     <link href="~/css/style.css" rel="stylesheet">
+    <style>
+        .user-icon {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .btn-group .dropdown-toggle {
+            background: none;
+            border: none;
+            padding: 0;
+        }
+
+        .dropdown-menu {
+            min-width: 120px;
+            text-align: center;
+        }
+
+            .dropdown-menu a {
+                color: black;
+                text-decoration: none;
+                display: block;
+                padding: 8px;
+            }
+
+                .dropdown-menu a:hover {
+                    background-color: #f8f9fa;
+                }
+
+    </style>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            var userIcon = document.getElementById("userIcon");
+            var logoutMenu = document.getElementById("logoutMenu");
+
+            if (userIcon) {
+                userIcon.addEventListener("click", function (event) {
+                    event.stopPropagation();
+                    logoutMenu.style.display = logoutMenu.style.display === "block" ? "none" : "block";
+                });
+
+                document.addEventListener("click", function (event) {
+                    if (!userIcon.contains(event.target) && !logoutMenu.contains(event.target)) {
+                        logoutMenu.style.display = "none";
+                    }
+                });
+            }
+        });
+    </script>
 </head>
 <body>
     <div class="main-content">
     </div>
+
     <!-- Topbar Start -->
     <div class="container-fluid">
         <div class="row bg-secondary py-1 px-xl-5">
@@ -35,31 +89,6 @@
                 </div>
             </div>
             <div class="col-lg-6 text-center text-lg-right">
-                <div class="d-inline-flex align-items-center">
-                    <div class="btn-group">
-                        <button type="button" class="btn btn-sm btn-light dropdown-toggle" data-toggle="dropdown">My Account</button>
-                        <div class="dropdown-menu dropdown-menu-right">
-                            <button class="dropdown-item" type="button"onclick="window.location.href='@Url.Action("Login", "Home")'">Log in</button>
-                            <button class="dropdown-item" type="button" onclick="window.location.href='@Url.Action("Signup", "Home")'">Sign up</button>
-                        </div>
-                    </div>
-                    <div class="btn-group mx-2">
-                        <button type="button" class="btn btn-sm btn-light dropdown-toggle" data-toggle="dropdown">INR</button>
-                        <div class="dropdown-menu dropdown-menu-right">
-                            <button class="dropdown-item" type="button">EUR</button>
-                            <button class="dropdown-item" type="button">USD</button>
-                            <button class="dropdown-item" type="button">CAD</button>
-                        </div>
-                    </div>
-                    <div class="btn-group">
-                        <button type="button" class="btn btn-sm btn-light dropdown-toggle" data-toggle="dropdown">EN</button>
-                        <div class="dropdown-menu dropdown-menu-right">
-                            <button class="dropdown-item" type="button">FR</button>
-                            <button class="dropdown-item" type="button">AR</button>
-                            <button class="dropdown-item" type="button">RU</button>
-                        </div>
-                    </div>
-                </div>
                 <div class="d-inline-flex align-items-center d-block d-lg-none">
                     <a href="" class="btn px-0 ml-2">
                         <i class="fas fa-heart text-dark"></i>
@@ -148,13 +177,33 @@
                             <a href="@Url.Action("Contact", "Home")" class="nav-item nav-link">Contact</a>
                         </div>
                         <div class="navbar-nav ml-auto py-0 d-none d-lg-block">
-                            <a href="" class="btn px-0">
+                            @if (user != null)
+                            {
+                                <!-- User Profile Dropdown -->
+                                <div class="btn-group">
+                                    <button type="button" class="btn btn-sm btn-light dropdown-toggle" data-toggle="dropdown">
+                                        <img src="@Url.Content(user.ProfileImagePath)" alt="Profile Image" class="rounded-circle user-icon" />
+                                        <span class="ml-2">@user.Name</span>
+                                    </button>
+                                    <div class="dropdown-menu dropdown-menu-right">
+                                        <a class="dropdown-item" href="@Url.Action("Logout", "Home")">Logout</a>
+                                    </div>
+                                </div>
+                            }
+                            else
+                            {
+                                <!-- Login Button -->
+                                <a href="@Url.Action("Login", "Home")" class="btn btn-sm btn-primary text-white ml-3">Login</a>
+                            }
+
+                            <!-- Wishlist and Cart -->
+                            <a href="" class="btn px-0 ml-3">
                                 <i class="fas fa-heart text-primary"></i>
-                                <span class="badge text-secondary border border-secondary rounded-circle" style="padding-bottom: 2px;">0</span>
+                                <span class="badge text-secondary border border-secondary rounded-circle">0</span>
                             </a>
                             <a href="" class="btn px-0 ml-3">
                                 <i class="fas fa-shopping-cart text-primary"></i>
-                                <span class="badge text-secondary border border-secondary rounded-circle" style="padding-bottom: 2px;">0</span>
+                                <span class="badge text-secondary border border-secondary rounded-circle">0</span>
                             </a>
                         </div>
                     </div>
@@ -163,9 +212,12 @@
         </div>
     </div>
     <!-- Navbar End -->
+
     <div>
         @RenderBody()
     </div>
+
+    <!-- Footer and scripts -->
     <footer>
         <!-- Footer Start -->
         <div class="container-fluid bg-dark text-secondary mt-5 pt-5">
@@ -239,7 +291,6 @@
         <!-- Footer End -->
         <!-- Back to Top -->
         <a href="#" class="btn btn-primary back-to-top"><i class="fa fa-angle-double-up"></i></a>
-
 
         <!-- JavaScript Libraries -->
         <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>

@@ -1,0 +1,71 @@
+﻿@{
+    var user = Session["User"] as E_Commerce_Project_CRUD_Dapper.Models.UserModel;
+}
+
+<div class="user-profile-container">
+    @if (user != null)
+    {
+        <div class="user-icon-wrapper">
+            <img src="@Url.Content(user.ProfileImagePath)" alt="User" class="user-icon" id="userIcon" />
+            <div class="logout-menu" id="logoutMenu">
+                <a href="@Url.Action("Logout", "Home")">Logout</a>
+            </div>
+        </div>
+    }
+    else
+    {
+        <a href="@Url.Action("Login", "Home")">Login</a>
+    }
+</div>
+
+<style>
+    .user-icon {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        object-fit: cover;
+        cursor: pointer;
+    }
+
+    .user-icon-wrapper {
+        position: relative;
+        display: inline-block;
+    }
+
+    .logout-menu {
+        display: none;
+        position: absolute;
+        top: 45px;
+        right: 0;
+        background: white;
+        border: 1px solid #ddd;
+        padding: 5px 10px;
+        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+        z-index: 10;
+    }
+
+        .logout-menu a {
+            text-decoration: none;
+            color: black;
+        }
+</style>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        var userIcon = document.getElementById("userIcon");
+        var logoutMenu = document.getElementById("logoutMenu");
+
+        if (userIcon) {
+            userIcon.addEventListener("click", function (event) {
+                event.stopPropagation();
+                logoutMenu.style.display = logoutMenu.style.display === "block" ? "none" : "block";
+            });
+
+            document.addEventListener("click", function (event) {
+                if (!userIcon.contains(event.target) && !logoutMenu.contains(event.target)) {
+                    logoutMenu.style.display = "none";
+                }
+            });
+        }
+    });
+</script>
