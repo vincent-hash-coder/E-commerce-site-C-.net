@@ -1,0 +1,56 @@
+﻿@model List<E_Commerce_Project_CRUD_Dapper.Models.Order>
+
+@{
+    ViewBag.Title = "Order Status";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Your Order Status</h2>
+
+@if (Model == null || !Model.Any())
+{
+    <p>No orders found.</p>
+}
+else
+{
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>Order ID</th>
+                <th>Product Name</th>
+                <th>Quantity</th>
+                <th>Order Date</th>
+                <th>Payment Method</th>
+                <th>Delivery Status</th>
+                <th>Shipping Time (Days)</th>
+                <th>Estimated Delivery Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var order in Model)
+            {
+                <tr>
+                    <td>@order.OrderID</td>
+                    <td>@order.ProductName</td>
+                    <td>@order.Quantity</td>
+                    <td>@order.OrderDate.ToString("yyyy-MM-dd HH:mm:ss")</td>
+                    <td>@order.PaymentMethod</td>
+                    <td>@order.DeliveryStatus</td>
+                    <td>@order.ShippingTime</td>
+                    <td>
+                        @if (order.DeliveryDate.HasValue)
+                        {
+                            @order.DeliveryDate.Value.ToString("yyyy-MM-dd")
+                        }
+                        else
+                        {
+                            <text>Not Delivered</text>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+<a href="@Url.Action("Index", "Home")" class="btn btn-primary">Back to Home</a>

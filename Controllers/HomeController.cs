@@ -6,6 +6,7 @@ using System.Linq;
 using System.IO;
 using System.Data.SqlClient;
 using System;
+using Newtonsoft.Json;
 
 namespace E_Commerce_Project_CRUD_Dapper.Controllers
 {
@@ -70,9 +71,42 @@ namespace E_Commerce_Project_CRUD_Dapper.Controllers
             ViewBag.ImgLocation = ImgLocation;
             return View(product);
         }
-        public ActionResult Checkout()
+        public ActionResult Checkout(string productIds = "0")
         {
-            return View();
+            var user = Session["User"] as UserModel;
+            if (user == null)
+            {
+                return RedirectToAction("Login");
+            }
+
+            if (string.IsNullOrEmpty(productIds) || productIds == "0")
+            {
+                System.Diagnostics.Debug.WriteLine("Cart is empty.");
+                return View(new List<Product>());
+            }
+            try
+            {
+                var parameters = new DynamicParameters();
+                parameters.Add("ProductIDs", productIds);
+
+                List<Product> products = DapperORM.ReturnList<Product>("GetProductsForCheckout", parameters) ?? new List<Product>();
+
+                foreach (var product in products)
+                {
+                    if (!string.IsNullOrEmpty(product.ImageLocation))
+                    {
+                        var ImagePart = product.ImageLocation.Split(',');
+                        product.ImageLocation = ImagePart.FirstOrDefault();
+                    }
+                }
+
+                return View(products);
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine("Error in Checkout: " + ex.Message);
+                return View("Error");
+            }
         }
         public ActionResult Cart(string productIds = "0")
         {
@@ -159,7 +193,7 @@ namespace E_Commerce_Project_CRUD_Dapper.Controllers
                 }
                 else
                 {
-                    user.ProfileImagePath = "Profileimg/default.png";
+                    user.ProfileImagePath = "/Profileimg/default.png";
                 }
 
                 user.PasswordHash = BCrypt.Net.BCrypt.HashPassword(user.Password);
@@ -261,6 +295,65 @@ namespace E_Commerce_Project_CRUD_Dapper.Controllers
                 return Json(new { success = false, message = "Error: " + ex.Message });
             }
         }
+        [HttpPost]
+        public JsonResult PlaceOrder(OrderData orderData)
+        {
+            try
+            {
+                var user = Session["User"] as UserModel;
+                if (user == null)
+                {
+                    return Json(new { success = false, message = "User not logged in." });
+                }
 
+                foreach (var product in orderData.Products)
+                {
+                    var parameters = new DynamicParameters();
+                    parameters.Add("@UserID", user.UserID);
+                    parameters.Add("@ProductID", product.ProductID);
+                    parameters.Add("@Quantity", product.Quantity);
+                    parameters.Add("@OrderDate", DateTime.Now);
+                    parameters.Add("@PaymentMethod", orderData.PaymentMethod);
+                    parameters.Add("@PaymentDetails", JsonConvert.SerializeObject(orderData.PaymentDetails));
+
+                    DapperORM.ReturnNothing("CheckoutOrder", parameters);
+                }
+
+                return Json(new { success = true, message = "Order placed successfully!" });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = false, message = ex.Message });
+            }
+        }
+        public class OrderData
+        {
+            public int UserID { get; set; }
+            public List<ProductOrder> Products { get; set; }
+            public string PaymentMethod { get; set; }
+            public dynamic PaymentDetails { get; set; }
+        }
+        public class ProductOrder
+        {
+            public int ProductID { get; set; }
+            public int Quantity { get; set; }
+        }
+        public ActionResult OrderStatus()
+        {
+            var user = Session["User"] as UserModel;
+            if (user == null)
+            {
+                return RedirectToAction("Login");
+            }
+
+            DapperORM.ReturnNothing("UpdateAllOrderStatuses");
+
+            var parameters = new DynamicParameters();
+            parameters.Add("@UserID", user.UserID);
+
+            List<Order> orders = DapperORM.ReturnList<Order>("GetOrderStatusByUserID", parameters) ?? new List<Order>();
+
+            return View(orders);
+        }
     }
 }

@@ -166,14 +166,7 @@
                         <div class="navbar-nav mr-auto py-0">
                             <a href="@Url.Action("Index", "Home")" class="nav-item nav-link active">Home</a>
                             <a href="@Url.Action("Shop", "Home")" class="nav-item nav-link">Products</a>
-                            <a href="@Url.Action("Detail", "Home")" class="nav-item nav-link">Product Details</a>
-                            <div class="nav-item dropdown">
-                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Purchase details <i class="fa fa-angle-down mt-1"></i></a>
-                                <div class="dropdown-menu bg-primary rounded-0 border-0 m-0">
-                                    <a href="@Url.Action("Cart", "Home")" class="dropdown-item">Wishlist</a>
-                                    <a href="@Url.Action("Checkout", "Home")" class="dropdown-item">Checkout</a>
-                                </div>
-                            </div>
+                            <a href="@Url.Action("OrderStatus", "Home")" class="nav-item nav-link">Order Status</a>
                             <a href="@Url.Action("Contact", "Home")" class="nav-item nav-link">Contact</a>
                         </div>
                         <div class="navbar-nav ml-auto py-0 d-none d-lg-block">
@@ -197,13 +190,13 @@
                             }
 
                             <!-- Wishlist and Cart -->
-                            <a href="" class="btn px-0 ml-3">
+                            <a href="@Url.Action("Cart", "Home")" class="btn px-0 ml-3">
                                 <i class="fas fa-heart text-primary"></i>
                                 <span class="badge text-secondary border border-secondary rounded-circle">0</span>
                             </a>
-                            <a href="" class="btn px-0 ml-3">
+                            <a href="@Url.Action("Checkout", "Home")" class="btn px-0 ml-3">
                                 <i class="fas fa-shopping-cart text-primary"></i>
-                                <span class="badge text-secondary border border-secondary rounded-circle">0</span>
+                                <span class="badge text-secondary border border-secondary rounded-circle"></span>
                             </a>
                         </div>
                     </div>

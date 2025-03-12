@@ -55,6 +55,7 @@ D:\c#\Dotnet\E-Commerce_Project_CRUD_Dapper\bin\Dapper.dll
 D:\c#\Dotnet\E-Commerce_Project_CRUD_Dapper\bin\Microsoft.Bcl.AsyncInterfaces.dll
 D:\c#\Dotnet\E-Commerce_Project_CRUD_Dapper\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll
 D:\c#\Dotnet\E-Commerce_Project_CRUD_Dapper\bin\Microsoft.Web.Infrastructure.dll
+D:\c#\Dotnet\E-Commerce_Project_CRUD_Dapper\bin\Newtonsoft.Json.dll
 D:\c#\Dotnet\E-Commerce_Project_CRUD_Dapper\bin\System.Buffers.dll
 D:\c#\Dotnet\E-Commerce_Project_CRUD_Dapper\bin\System.Memory.dll
 D:\c#\Dotnet\E-Commerce_Project_CRUD_Dapper\bin\System.Numerics.Vectors.dll
@@ -69,6 +70,7 @@ D:\c#\Dotnet\E-Commerce_Project_CRUD_Dapper\bin\System.Web.WebPages.Razor.dll
 D:\c#\Dotnet\E-Commerce_Project_CRUD_Dapper\bin\BCrypt.Net-Next.xml
 D:\c#\Dotnet\E-Commerce_Project_CRUD_Dapper\bin\Dapper.xml
 D:\c#\Dotnet\E-Commerce_Project_CRUD_Dapper\bin\Microsoft.Bcl.AsyncInterfaces.xml
+D:\c#\Dotnet\E-Commerce_Project_CRUD_Dapper\bin\Newtonsoft.Json.xml
 D:\c#\Dotnet\E-Commerce_Project_CRUD_Dapper\bin\System.Buffers.xml
 D:\c#\Dotnet\E-Commerce_Project_CRUD_Dapper\bin\System.Memory.xml
 D:\c#\Dotnet\E-Commerce_Project_CRUD_Dapper\bin\System.Numerics.Vectors.xml
@@ -81,6 +83,7 @@ D:\c#\Dotnet\E-Commerce_Project_CRUD_Dapper\bin\System.Web.WebPages.xml
 D:\c#\Dotnet\E-Commerce_Project_CRUD_Dapper\bin\System.Web.WebPages.Deployment.xml
 D:\c#\Dotnet\E-Commerce_Project_CRUD_Dapper\bin\System.Web.WebPages.Razor.xml
 D:\c#\Dotnet\E-Commerce_Project_CRUD_Dapper\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
+D:\c#\Dotnet\E-Commerce_Project_CRUD_Dapper\obj\Debug\E-Commerce_Project_CRUD_Dapper.csproj.AssemblyReference.cache
 D:\c#\Dotnet\E-Commerce_Project_CRUD_Dapper\obj\Debug\E-Commerce_Project_CRUD_Dapper.csproj.CoreCompileInputs.cache
 D:\c#\Dotnet\E-Commerce_Project_CRUD_Dapper\obj\Debug\E-Commerce_Project_CRUD_Dapper.csproj.CopyComplete
 D:\c#\Dotnet\E-Commerce_Project_CRUD_Dapper\obj\Debug\E-Commerce_Project_CRUD_Dapper.dll
